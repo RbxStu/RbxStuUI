@@ -62,6 +62,8 @@ namespace RbxStuUI {
 
                 // Additional Services.
                 services.AddTransient<RbxStuService>();
+
+                services.AddHttpClient();   // IHttpClientFactory
             }).Build();
 
         /// <summary>
