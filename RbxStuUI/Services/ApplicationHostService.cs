@@ -41,14 +41,16 @@ namespace RbxStuUI.Services {
         /// </summary>
         private async Task HandleActivationAsync() {
             if (!Application.Current.Windows.OfType<Loader>().Any()) {
+                _navigationWindow = (
+                       _serviceProvider.GetService(typeof(INavigationWindow)) as INavigationWindow
+                   )!; // Main window
                 _loaderWindow = (Loader) _serviceProvider.GetService(typeof(ILoader));
                 _loaderWindow.Show();
                 _loaderWindow.Closed += (object? sender, EventArgs args) => {
-                    _navigationWindow = (
-                        _serviceProvider.GetService(typeof(INavigationWindow)) as INavigationWindow
-                    )!; // Main window
-                    _navigationWindow.ShowWindow();
-                    _navigationWindow.Navigate(typeof(Views.Pages.DashboardPage));
+                    Application.Current.Dispatcher.Invoke(() => {
+                        _navigationWindow.ShowWindow();
+                        _navigationWindow.Navigate(typeof(Views.Pages.DashboardPage));
+                    });
                 };
 
             }

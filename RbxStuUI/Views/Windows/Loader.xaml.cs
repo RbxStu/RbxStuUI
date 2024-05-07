@@ -36,7 +36,6 @@ public partial class Loader : FluentWindow, ILoader {
     public static Loader GetSingleton() => m_singleton;
 
     private void OnLoaded(object sender, RoutedEventArgs e) {
-
         Task.Run(async () => {
             await ViewModel.OnLoaderLoaded(sender, e);
         });

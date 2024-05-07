@@ -26,7 +26,7 @@
     <Grid>
         <ui:Image Source="pack://application:,,,/Assets/robloxstudio.png" Margin="268,10,268,160"/>
         <ui:TextBlock Text="RbxStu" FontSize="50" Margin="138,274,138,0" TextAlignment="Center" VerticalAlignment="Top"></ui:TextBlock>
-        <ui:TextBlock Text="{Binding StatusText}" TextAlignment="Center" FontSize="35" Margin="268,346,268,43"></ui:TextBlock>
+        <ui:TextBlock Text="{Binding StatusText}" TextAlignment="Center" FontSize="35" Margin="210,346,210,43"></ui:TextBlock>
         <ProgressBar IsIndeterminate="True" Margin="92,420,100,10" Height="5" />
     </Grid>
 </ui:FluentWindow>

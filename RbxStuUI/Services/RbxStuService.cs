@@ -7,6 +7,8 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
+using RbxStuUI.Exceptions;
+
 namespace RbxStuUI.Services;
 public class RbxStuService {
     private readonly IHttpClientFactory m_httpClientFactory;
@@ -14,8 +16,13 @@ public class RbxStuService {
         m_httpClientFactory = httpClientFactory;
     }
 
-    public bool HasSetupBeenCompleted() => File.Exists("./_completed_setup");
-    public bool IsWorkspaceCorrupted() => !HasSetupBeenCompleted() || !Directory.Exists("./workspace");
+    public void CreateFolders() {
+        Directory.CreateDirectory("./bin");
+        Directory.CreateDirectory("./workspace");
+    }
+    public void MarkSetupCompleted() => File.Create("./_completed_setup");
+    public bool InitialSetupCompleted() => File.Exists("./_completed_setup");
+    public bool IsWorkspaceCorrupted() => !InitialSetupCompleted() || !Directory.Exists("./workspace");
 
     public int GetRobloxStudioProcessId() {
         // Get latest studio to be opened, probably our target, like a Team create/Local test on a client (Latter will be really annoying to get right, so right now, gamble it).
@@ -28,7 +35,7 @@ public class RbxStuService {
     }
 
     public bool AreBinariesCorrupted() {
-        if (!HasSetupBeenCompleted())
+        if (!InitialSetupCompleted())
             return true;   // Installation is pending, corruption assumed.
 
         if (!Directory.Exists("./bin"))
@@ -36,7 +43,6 @@ public class RbxStuService {
 
         var fileDictionary = new Dictionary<string, bool> {
             ["Module.dll"] = false,
-            ["injector.exe"] = false
         };
 
         foreach (var file in Directory.EnumerateFiles("./bin")) {
@@ -47,9 +53,31 @@ public class RbxStuService {
         return fileDictionary.All(x => x.Value); // Must evaluate all to true, else not good.
     }
 
-    public async Task DownloadBinariesAsync() {
+    public async Task DownloadBinariesAsync(Func<string, Task>? progressCallback) {
         var client = m_httpClientFactory.CreateClient() ?? throw new Exception("Failed to obtain an HttpClient from the HttpClientFactory!");
 
+        // Download Module.dll for injection, currently only binary dependency.
 
+        if (progressCallback != null)
+            await progressCallback.Invoke("Downloading DLL...");
+
+        var request = await client.GetAsync("https://github.com/RbxStu/RbxStu/releases/latest/download/Module.dll");
+
+        if (!request.IsSuccessStatusCode)
+            throw new DownloadFailedExeception("Failed to download Module!");
+
+        var buf = await request.Content.ReadAsStreamAsync();
+
+        if (progressCallback != null)
+            await progressCallback.Invoke("Writing DLL...");
+
+        var fStream = File.OpenWrite(GetModulePath());
+
+        await buf.CopyToAsync(fStream);
+        await buf.DisposeAsync();
+        await fStream.DisposeAsync();
+
+        if (progressCallback != null)
+            await progressCallback.Invoke("Complete!");
     }
 }

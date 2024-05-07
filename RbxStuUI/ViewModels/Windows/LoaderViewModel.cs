@@ -27,6 +27,15 @@ public partial class LoaderViewModel : ObservableObject {
     private string _statusText = "Loading";
 
     public async Task OnLoaderLoaded(object sender, RoutedEventArgs e) {
+        if (!m_rbxStuService.InitialSetupCompleted()) {
+            m_rbxStuService.CreateFolders();
+            await m_rbxStuService.DownloadBinariesAsync((string status) => {
+                StatusText = status;
+                return Task.CompletedTask;
+            });
+            m_rbxStuService.MarkSetupCompleted();
+        }
+
         // Validate workspace and other stuffz
         StatusText = "Verifying Dependencies 1/2...";
 
@@ -85,5 +94,9 @@ public partial class LoaderViewModel : ObservableObject {
         }
 
         StatusText = "Loading UI";
+
+        m_loader.Dispatcher.Invoke(() => {
+            m_loader.Close();
+        });
     }
 }
