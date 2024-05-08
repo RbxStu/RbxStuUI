@@ -55,7 +55,6 @@ namespace RbxStuUI {
                 services.AddSingleton<DashboardViewModel>();
 
                 services.AddSingleton<DataPage>();
-                services.AddSingleton<DataViewModel>();
 
                 services.AddSingleton<SettingsPage>();
                 services.AddSingleton<SettingsViewModel>();

@@ -3,13 +3,10 @@
 using Wpf.Ui.Controls;
 
 namespace RbxStuUI.Views.Pages {
-    public partial class DataPage : INavigableView<DataViewModel> {
-        public DataViewModel ViewModel { get; }
+    public partial class DataPage {
 
-        public DataPage(DataViewModel viewModel) {
-            ViewModel = viewModel;
+        public DataPage() {
             DataContext = this;
-
             InitializeComponent();
         }
     }
