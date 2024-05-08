@@ -4,8 +4,10 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:RbxStuUI.Views.Pages"
+    xmlns:pagesViewmodels="clr-namespace:RbxStuUI.ViewModels.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    xmlns:webview="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
     Title="DashboardPage"
     d:DataContext="{d:DesignInstance local:DashboardPage,
                                      IsDesignTimeCreatable=False}"
@@ -16,21 +18,20 @@
     Foreground="{DynamicResource TextFillColorPrimaryBrush}"
     mc:Ignorable="d">
 
-    <Grid VerticalAlignment="Top">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-        </Grid.ColumnDefinitions>
-
-        <ui:Button
-            Grid.Column="0"
-            Command="{Binding ViewModel.CounterIncrementCommand, Mode=OneWay}"
-            Content="Click me!"
-            Icon="Fluent24" />
-        <TextBlock
-            Grid.Column="1"
-            Margin="12,0,0,0"
-            VerticalAlignment="Center"
-            Text="{Binding ViewModel.Counter, Mode=OneWay}" />
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="373*"/>
+            <RowDefinition Height="77*"/>
+        </Grid.RowDefinitions>
+        <ui:ListView Margin="10,10,17,10" ItemsSource="{Binding ViewModel.InformationalCues}">
+            <ListView.ItemTemplate>
+                <DataTemplate DataType="{x:Type pagesViewmodels:InformationalCue}">
+                    <ui:InfoBar Margin="8,4" IsClosable="False" IsOpen="True" Message="{Binding Message}" Severity="{Binding Severity}" ></ui:InfoBar>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ui:ListView>
+        <ui:Button Content="Inject into Roblox Studio" Click="OnInjectionButtonClicked" Margin="10,10,0,10" HorizontalAlignment="Left" Width="213" TextBlock.TextAlignment="Center" Grid.Row="1" />
     </Grid>
+
+
 </Page>
