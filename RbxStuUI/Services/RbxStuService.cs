@@ -26,7 +26,7 @@ public class RbxStuService {
 
     public int GetRobloxStudioProcessId() {
         // Get latest studio to be opened, probably our target, like a Team create/Local test on a client (Latter will be really annoying to get right, so right now, gamble it).
-        var studios = Process.GetProcessesByName("RobloxStudioBeta.exe");
+        var studios = Process.GetProcessesByName("RobloxStudioBeta");
         return studios.Length == 0 ? -1 : studios.Length == 1 ? studios[0].Id : studios.OrderBy(x => x.StartTime.Ticks).First().Id;
     }
 
