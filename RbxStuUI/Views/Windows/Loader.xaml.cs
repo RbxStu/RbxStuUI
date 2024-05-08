@@ -23,7 +23,7 @@ namespace RbxStuUI.Views.Windows;
 /// Interaction logic for Loader.xaml
 /// </summary>
 public partial class Loader : FluentWindow, ILoader {
-    public static Loader m_singleton;
+    private static Loader m_singleton;
     public LoaderViewModel ViewModel { get; set; }
     public Loader(
         LoaderViewModel viewModel
