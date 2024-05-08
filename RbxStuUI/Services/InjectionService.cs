@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -65,6 +66,18 @@ public partial class InjectionService {
     }
 
     public bool CanInject() => !m_rbxStuService.AreBinariesCorrupted() && m_rbxStuService.GetRobloxStudioProcessId() != -1;
+
+    public bool IsInjected() {
+        // If we injected successfully, using LoadLibraryA, we should appear on module list.
+        var dwRobloxStudioPid  = m_rbxStuService.GetRobloxStudioProcessId();
+        var robloxStudio = Process.GetProcessById(dwRobloxStudioPid);
+        foreach (ProcessModule module in robloxStudio.Modules) {
+            if (module.FileName == m_rbxStuService.GetModulePath())
+                return true;
+        }
+
+        return false;
+    }
 
     public async Task InjectModule() {
         if (!CanInject())
