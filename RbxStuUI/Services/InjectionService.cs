@@ -64,7 +64,7 @@ public partial class InjectionService {
         m_rbxStuService = stuService;
     }
 
-    public bool CanInject() => !m_rbxStuService.AreBinariesCorrupted();
+    public bool CanInject() => !m_rbxStuService.AreBinariesCorrupted() && m_rbxStuService.GetRobloxStudioProcessId() != -1;
 
     public async Task InjectModule() {
         if (!CanInject())
