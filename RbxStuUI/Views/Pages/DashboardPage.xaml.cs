@@ -7,7 +7,7 @@ namespace RbxStuUI.Views.Pages {
     public partial class DashboardPage : INavigableView<DashboardViewModel> {
         public DashboardViewModel ViewModel { get; }
 
-        public DashboardPage(DashboardViewModel viewModel, EditorService editorService) {   // Used to initialize EditorService right with DashboardViewModel
+        public DashboardPage(DashboardViewModel viewModel) {
             ViewModel = viewModel;
             DataContext = this;
 
