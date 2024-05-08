@@ -2,9 +2,6 @@
 using System.Diagnostics;
 using System.IO;
 
-using Microsoft.Web.WebView2.Core;
-using Microsoft.Web.WebView2.Wpf;
-
 using RbxStuUI.Services;
 
 using Wpf.Ui.Controls;

@@ -15,16 +15,10 @@ public partial class MainWindowViewModel : ObservableObject {
     {
         new NavigationViewItem()
         {
-            Content = "Home",
+            Content = "RbxStu Dashboard - Control RbxStu",
             Icon = new SymbolIcon { Symbol = SymbolRegular.Home24 },
             TargetPageType = typeof(Views.Pages.DashboardPage)
         },
-        new NavigationViewItem()
-        {
-            Content = "Data",
-            Icon = new SymbolIcon { Symbol = SymbolRegular.DataHistogram24 },
-            TargetPageType = typeof(Views.Pages.DataPage)
-        }
     };
 
     [ObservableProperty]
@@ -41,6 +35,6 @@ public partial class MainWindowViewModel : ObservableObject {
     [ObservableProperty]
     private ObservableCollection<MenuItem> _trayMenuItems = new()
     {
-        new MenuItem { Header = "Home", Tag = "tray_home" }
+        new MenuItem { Header = "Dashboard", Tag = "tray_home" }
     };
 }
